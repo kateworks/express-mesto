@@ -1,6 +1,7 @@
 {
   "name": "express-mesto",
   "version": "1.0.0",
+  "homepage": "https://github.com/kateworks/express-mesto.git",
   "description": "Интерактивная страница для размещения фотографий",
   "main": "app.js",
   "scripts": {
