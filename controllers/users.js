@@ -7,7 +7,7 @@ const {
   ERROR_SERVER,
 } = require('../utils/constants');
 
-const getUsers = (req, res) => {
+module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(STATUS_OK).send({ data: users }))
     .catch((err) => {
@@ -16,7 +16,7 @@ const getUsers = (req, res) => {
     });
 };
 
-const getUser = (req, res) => {
+module.exports.getUser = (req, res) => {
   const { id } = req.params;
   User.findById(id)
     .then((user) => {
@@ -33,7 +33,7 @@ const getUser = (req, res) => {
     });
 };
 
-const createUser = (req, res) => {
+module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.status(STATUS_CREATED).send({ data: user }))
@@ -43,4 +43,16 @@ const createUser = (req, res) => {
     });
 };
 
-module.exports = { getUsers, getUser, createUser };
+module.exports.updateProfile = (req, res) => {
+  const { name, about } = req.body;
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    { new: true, runValidators: true, upsert: true },
+  )
+    .then((user) => res.status(STATUS_OK).send({ data: user }))
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+      res.status(ERROR_SERVER).send({ message: 'Ошибка на сервере' });
+    });
+};
