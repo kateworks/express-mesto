@@ -1,10 +1,8 @@
-const path = require('path');
-const readFile = require('../utils/read-file.js');
 
-const dataPath = path.join(__dirname, '..', 'data', 'cards.json');
+const Card = require('../models/card');
 
 const getCards = (req, res) => {
-  readFile(dataPath)
+  Card.find({})
     .then((data) => res.send(data))
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
@@ -12,4 +10,23 @@ const getCards = (req, res) => {
     });
 };
 
-module.exports = { getCards };
+const createCard = (req, res) => {
+  const { name, link } = req.body;
+  Card.create({ name, link, owner: req.user._id })
+    .then((user) => res.send({ data: user }))
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+      res.status(500).send({ message: 'Ошибка на сервере' });
+    });
+};
+
+const deleteCard = (req, res) => {
+  Card.findByIdAndRemove(req.params.id)
+    .then((card) => res.send({ data: card }))
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+      res.status(500).send({ message: 'Ошибка на сервере' });
+    });
+};
+
+module.exports = { getCards, createCard, deleteCard };
