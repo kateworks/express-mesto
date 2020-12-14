@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
 const bodyParser = require('body-parser');
 const routes = require('./routes/index.js');
 
@@ -24,8 +23,6 @@ app.use((req, res, next) => {
 });
 
 app.use(routes);
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
