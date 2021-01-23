@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 app.post('/signup', createUser);
 app.post('/signin', login);
 
-// app.use(auth);
+app.use(auth);
 app.use(routes);
 
 // Централизованная обработка ошибок
