@@ -8,6 +8,7 @@ const {
 
 router.get('/users', getUsers);
 router.get('/users/:id', getUser);
+router.get('/users/me', getUser);
 
 router.patch('/users/me', updateProfile);
 router.patch('/users/me/avatar', updateAvatar);
