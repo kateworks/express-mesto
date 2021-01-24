@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const routes = require('./routes/index.js');
@@ -23,12 +24,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: '5fd7172deeb1f02214d978a9',
-//   };
-//   next();
-// });
+// Подключаем логгер запросов
+app.use(requestLogger);
 
 app.post('/signup', checkUser, createUser);
 app.post('/signin', checkUser, login);
@@ -36,6 +33,9 @@ app.post('/signin', checkUser, login);
 // Защита роутов авторизацией
 app.use(auth);
 app.use(routes);
+
+// Подключаем логгер ошибок
+app.use(errorLogger);
 
 // Обработка ошибок celebrate
 app.use(errors());
