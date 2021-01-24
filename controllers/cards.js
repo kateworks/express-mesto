@@ -1,6 +1,7 @@
 
 const Card = require('../models/card');
 const BadRequestError = require('../errors/bad-request-err');
+const NotFoundError = require('../errors/not-found-err');
 
 const { STATUS_OK, STATUS_CREATED } = require('../utils/constants');
 
@@ -25,7 +26,18 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.id)
+  const { id } = req.params;
+
+  Card.findById(id)
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('Такой карточки нет!');
+      }
+      if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) {
+        throw new BadRequestError('Невозможно удалить данную карточку');
+      }
+      return Card.findByIdAndRemove(id);
+    })
     .then((card) => res.status(STATUS_OK).send({ data: card }))
     .catch(next);
 };

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { checkUser } = require('../utils/validation');
+const { checkProfile, checkAvatar } = require('../utils/validation');
 
 const {
   getUsers,
@@ -11,7 +11,7 @@ const {
 router.get('/users', getUsers);
 router.get('/users/me', getCurrentUser);
 
-router.patch('/users/me', checkUser, updateProfile);
-router.patch('/users/me/avatar', updateAvatar);
+router.patch('/users/me', checkProfile, updateProfile);
+router.patch('/users/me/avatar', checkAvatar, updateAvatar);
 
 module.exports = router;

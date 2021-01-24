@@ -6,6 +6,7 @@ const { errors } = require('celebrate');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const routes = require('./routes/index.js');
+const { checkUser } = require('./utils/validation');
 const { ERROR_SERVER } = require('./utils/constants');
 
 const { PORT = 3000 } = process.env;
@@ -22,15 +23,15 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5fd7172deeb1f02214d978a9',
-  };
-  next();
-});
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: '5fd7172deeb1f02214d978a9',
+//   };
+//   next();
+// });
 
-app.post('/signup', createUser);
-app.post('/signin', login);
+app.post('/signup', checkUser, createUser);
+app.post('/signin', checkUser, login);
 
 // Защита роутов авторизацией
 app.use(auth);
