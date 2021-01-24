@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { errors } = require('celebrate');
 
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -31,15 +32,19 @@ app.use((req, res, next) => {
 app.post('/signup', createUser);
 app.post('/signin', login);
 
+// Защита роутов авторизацией
 app.use(auth);
 app.use(routes);
 
+// Обработка ошибок celebrate
+app.use(errors());
+
 // Централизованная обработка ошибок
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   const { statusCode = ERROR_SERVER, message } = err;
-  res
-    .status(statusCode)
-    .send({ message: statusCode === ERROR_SERVER ? 'Ошибка на сервере' : message });
+  const errorMessage = (statusCode === ERROR_SERVER) ? 'Ошибка на сервере' : message;
+  res.status(statusCode).send({ message: errorMessage });
 });
 
 app.listen(PORT, () => {

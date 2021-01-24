@@ -18,10 +18,10 @@ module.exports.createUser = (req, res, next) => {
   } = req.body;
 
   if (!email || !password) {
-    throw new BadRequestError('Нужны имя и пароль');
+    throw new BadRequestError('Нужны почта и пароль');
   }
 
-  return User.findOne({ email })
+  User.findOne({ email })
     .then((user) => {
       if (user) {
         throw new ExistError('Такой пользователь уже существует!');
@@ -50,7 +50,7 @@ module.exports.login = (req, res, next) => {
       });
     })
     .catch(() => {
-      throw new BadDataError('Неправильная пара логин-пароль');
+      throw new BadDataError('Неправильные почта или пароль');
     })
     .catch(next);
 };
