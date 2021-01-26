@@ -1,8 +1,8 @@
 {
   "name": "express-mesto",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "homepage": "https://github.com/kateworks/express-mesto.git",
-  "description": "Бэкенд проекта Mesto",
+  "description": "Серверная часть проекта Mesto",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
