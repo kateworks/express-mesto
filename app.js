@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -24,7 +23,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
 
 // Подключаем логгер запросов
 app.use(requestLogger);
