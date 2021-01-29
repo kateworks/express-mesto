@@ -6,7 +6,6 @@ const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUser, login } = require('./controllers/users');
-const auth = require('./middlewares/auth');
 const routes = require('./routes/index.js');
 const { checkUser } = require('./utils/validation');
 const { ERROR_SERVER } = require('./utils/constants');
@@ -22,7 +21,9 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
+// для собирания JSON-формата
 app.use(bodyParser.json());
+// для приёма веб-страниц внутри POST-запроса
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
@@ -39,8 +40,7 @@ app.get('/crash-test', () => {
 app.post('/signup', checkUser, createUser);
 app.post('/signin', checkUser, login);
 
-// Защита роутов авторизацией
-app.use(auth);
+// app.use(auth);
 app.use(routes);
 
 // Подключаем логгер ошибок

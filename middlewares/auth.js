@@ -4,7 +4,6 @@ const {
   ERROR_BAD_DATA,
 } = require('../utils/constants');
 
-
 const handleAuthError = (res) => {
   res.status(ERROR_BAD_DATA).send({ message: 'Необходима авторизация' });
 };
