@@ -1,11 +1,8 @@
 const jwt = require('jsonwebtoken');
+const BadDataError = require('../errors/bad-data-err');
 
-const {
-  ERROR_BAD_DATA,
-} = require('../utils/constants');
-
-const handleAuthError = (res) => {
-  res.status(ERROR_BAD_DATA).send({ message: 'Необходима авторизация' });
+const handleAuthError = () => {
+  throw new BadDataError('Необходима авторизация');
 };
 
 const extractBearerToken = (header) => header.replace('Bearer ', '');
