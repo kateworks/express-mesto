@@ -1,4 +1,3 @@
-
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 const ERROR_BAD_DATA = 401;

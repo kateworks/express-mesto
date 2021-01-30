@@ -31,7 +31,6 @@ app.use(cors());
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
-  console.log('Сервер сейчас упадёт');
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
@@ -40,7 +39,6 @@ app.get('/crash-test', () => {
 app.post('/signup', checkUser, createUser);
 app.post('/signin', checkUser, login);
 
-// app.use(auth);
 app.use(routes);
 
 // Подключаем логгер ошибок

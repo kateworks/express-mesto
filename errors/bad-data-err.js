@@ -1,4 +1,3 @@
-
 class BadDataError extends Error {
   constructor(message) {
     super(message);
