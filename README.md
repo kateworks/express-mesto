@@ -17,9 +17,21 @@
 
 ## Запуск проекта
 
-`npm run start` — запускает сервер
+1. Клонировать репозиторий
 
-`npm run dev` — запускает сервер с hot-reload
+    `git clone https://github.com/kateworks/express-mesto.git`
+
+2. Установить зависимости
+
+    `cd express-mesto`
+
+    `npm install`
+
+3. Для запуска использовать команды
+
+    `npm run start` — запускает сервер
+
+    `npm run dev` — запускает сервер с hot-reload
 
 
 ## Дополнения
